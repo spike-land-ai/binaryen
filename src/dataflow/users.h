@@ -72,7 +72,7 @@ public:
 #endif
         }
       }
-      assert(found);
+      assert(found && "node not found in users list during removeUse");
     }
     return numUses;
   }

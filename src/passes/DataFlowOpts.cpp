@@ -137,8 +137,10 @@ struct DataFlowOpts : public WalkerPass<PostWalker<DataFlowOpts>> {
     // our Binaryen IR representations of them are constant too. RUn
     // precompute, which will transform the expression into a constanat.
     Module temp;
-    // XXX we should copy expr here, in principle, and definitely will need to
-    //     when we do arbitrarily regenerated expressions
+    // KNOWN ISSUE: we should copy expr here, in principle.
+    // WHY: we will definitely need to when we do arbitrarily regenerated expressions.
+    // RISK: Aliasing risk for expr pointer.
+    // FIX: Copy expr instead of directly using it.
     std::unique_ptr<Function> tempFunc(Builder(temp).makeFunction(
       "temp", Signature(Type::none, Type::none), {}, expr));
     PassRunner runner(&temp);

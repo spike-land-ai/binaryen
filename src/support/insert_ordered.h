@@ -98,8 +98,8 @@ template<typename Key, typename T> struct InsertOrderedMap {
   iterator begin() { return List.begin(); }
   iterator end() { return List.end(); }
 
-  typedef
-    typename std::list<std::pair<const Key, T>>::const_iterator const_iterator;
+  using const_iterator =
+    typename std::list<std::pair<const Key, T>>::const_iterator;
   const_iterator begin() const { return List.begin(); }
   const_iterator end() const { return List.end(); }
 

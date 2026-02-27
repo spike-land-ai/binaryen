@@ -225,13 +225,13 @@ struct Shape {
   virtual wasm::Expression* Render(RelooperBuilder& Builder, bool InLoop) = 0;
 
   static SimpleShape* IsSimple(Shape* It) {
-    return It && It->Type == Simple ? (SimpleShape*)It : NULL;
+    return It && It->Type == Simple ? (SimpleShape*)It : nullptr;
   }
   static MultipleShape* IsMultiple(Shape* It) {
-    return It && It->Type == Multiple ? (MultipleShape*)It : NULL;
+    return It && It->Type == Multiple ? (MultipleShape*)It : nullptr;
   }
   static LoopShape* IsLoop(Shape* It) {
-    return It && It->Type == Loop ? (LoopShape*)It : NULL;
+    return It && It->Type == Loop ? (LoopShape*)It : nullptr;
   }
 };
 
@@ -318,9 +318,9 @@ using BlockBlockSetMap = wasm::InsertOrderedMap<Block*, BlockSet>;
 
 #if RELOOPER_DEBUG
 struct Debugging {
-  static void Dump(Block* Curr, const char* prefix = NULL);
-  static void Dump(BlockSet& Blocks, const char* prefix = NULL);
-  static void Dump(Shape* S, const char* prefix = NULL);
+  static void Dump(Block* Curr, const char* prefix = nullptr);
+  static void Dump(BlockSet& Blocks, const char* prefix = nullptr);
+  static void Dump(Shape* S, const char* prefix = nullptr);
 };
 #endif
 

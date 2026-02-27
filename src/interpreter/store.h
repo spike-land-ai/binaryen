@@ -49,7 +49,7 @@ struct Frame {
 
   // Helpers to push and pop the current value stack.
   Literal pop() {
-    assert(valueStack.size());
+    assert(valueStack.size() && "pop from empty value stack");
     Literal val = valueStack.back();
     valueStack.pop_back();
     return val;
@@ -72,7 +72,7 @@ struct WasmStore {
   std::deque<Instance> instances;
 
   Frame& getFrame() {
-    assert(!callStack.empty());
+    assert(!callStack.empty() && "getFrame called with empty call stack");
     return callStack.back();
   }
 

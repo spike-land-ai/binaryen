@@ -1328,9 +1328,10 @@ FeatureSet HeapType::getFeatures() const {
 
       // In addition, scan their non-ref children, to add dependencies on
       // things like SIMD.
-      // XXX This will not scan HeapType children that are not also children of
-      //     Type children, which happens with Continuation (has a HeapType
-      //     child that is not a Type).
+      // KNOWN ISSUE: This will not scan HeapType children that are not also children of Type children.
+      // WHY: Happens with Continuation (has a HeapType child that is not a Type).
+      // RISK: Features might be missed leading to incorrect validation.
+      // FIX: Ensure all HeapType children are scanned properly.
       for (auto child : heapType.getTypeChildren()) {
         if (!child.isRef()) {
           feats |= child.getFeatures();

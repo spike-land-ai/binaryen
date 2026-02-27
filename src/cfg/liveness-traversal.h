@@ -101,8 +101,8 @@ struct Liveness {
 
 template<typename SubType, typename VisitorType>
 struct LivenessWalker : public CFGWalker<SubType, VisitorType, Liveness> {
-  typedef
-    typename CFGWalker<SubType, VisitorType, Liveness>::BasicBlock BasicBlock;
+  using BasicBlock =
+    typename CFGWalker<SubType, VisitorType, Liveness>::BasicBlock;
 
   Index numLocals;
   std::unordered_set<BasicBlock*> liveBlocks;

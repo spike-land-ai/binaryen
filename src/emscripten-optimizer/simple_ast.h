@@ -1116,7 +1116,11 @@ struct JSPrinter {
     }
     // otherwise, this is something that fixes precedence explicitly, and we can
     // ignore
-    return -1; // XXX
+    // KNOWN ISSUE: -1 sentinel return value
+    // WHY: Used to indicate precedence could not be fixed
+    // RISK: -1 might be confused with actual values
+    // FIX: Use std::optional or dedicated enum
+    return -1;
   }
 
   // check whether we need parens for the child, when rendered in the parent

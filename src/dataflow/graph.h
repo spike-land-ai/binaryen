@@ -164,7 +164,7 @@ struct Graph : public UnifiedExpressionVisitor<Graph, Node*> {
   }
 
   Node* makeZeroComp(Node* node, bool equal, Expression* origin) {
-    assert(!node->isBad());
+    assert(!node->isBad() && "makeZeroComp called with bad node");
     Builder builder(*module);
     auto type = node->getWasmType();
     if (!type.isConcrete()) {
@@ -263,7 +263,7 @@ struct Graph : public UnifiedExpressionVisitor<Graph, Node*> {
     parent = curr;
     // Set up the condition.
     Node* condition = visit(curr->condition);
-    assert(condition);
+    assert(condition && "condition node must be non-null after visiting If condition");
     // Handle the contents.
     auto initialState = locals;
     visit(curr->ifTrue);
@@ -331,7 +331,7 @@ struct Graph : public UnifiedExpressionVisitor<Graph, Node*> {
       auto* var = vars[i];
       auto* proper = previous[i];
       for (auto& other : breaks) {
-        assert(!isInUnreachable(other));
+        assert(!isInUnreachable(other) && "merging state with unreachable other in phi node construction");
         auto& curr = *(other[i]);
         if (curr != *var && curr != *proper) {
           // A phi would be necessary here.
@@ -402,7 +402,7 @@ struct Graph : public UnifiedExpressionVisitor<Graph, Node*> {
     if (!isRelevantLocal(curr->index) || isInUnreachable()) {
       return &bad;
     }
-    assert(curr->value->type.isConcrete());
+    assert(curr->value->type.isConcrete() && "local.set value must have concrete type");
     sets.push_back(curr);
     expressionParentMap[curr] = parent;
     expressionParentMap[curr->value] = curr;
@@ -662,13 +662,13 @@ struct Graph : public UnifiedExpressionVisitor<Graph, Node*> {
     // We should only receive reachable states.
 #ifndef NDEBUG
     for (auto& state : states) {
-      assert(!isInUnreachable(state.locals));
+      assert(!isInUnreachable(state.locals) && "unexpected unreachable locals in reachable state");
     }
 #endif
     Index numStates = states.size();
     if (numStates == 0) {
       // We were unreachable, and still are.
-      assert(isInUnreachable());
+      assert(isInUnreachable() && "expected unreachable state when merging unreachable branch");
       return;
     }
     // We may have just become reachable, if we were not before.

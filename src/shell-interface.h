@@ -136,7 +136,10 @@ struct ShellExternalInterface : ModuleRunner::ExternalInterface {
       return Literal(std::make_shared<FuncData>(import->name,
                                                 nullptr,
                                                 [](const Literals&) -> Flow {
-                                                  // XXX hack for torture tests
+                                                  // KNOWN ISSUE: hack for torture tests
+                                                  // WHY: We need a quick way to intercept exit for torture tests
+                                                  // RISK: Low, only affects testing
+                                                  // FIX: Implement a proper exit handler
                                                   std::cout << "exit()\n";
                                                   throw ExitException();
                                                 }),

@@ -33,7 +33,7 @@ PathString to_path(const std::string& s) { return string_to_wstring(s); }
 std::wstring string_to_wstring(const std::string& s) {
   const char* inptr = s.data();
   size_t inlen = s.size();
-  size_t outlen = MultiByteToWideChar(CP_UTF8, 0, inptr, inlen, NULL, 0);
+  size_t outlen = MultiByteToWideChar(CP_UTF8, 0, inptr, inlen, nullptr, 0);
   std::wstring outstr(outlen, 0);
   const LPWSTR outptr = outstr.data();
   MultiByteToWideChar(CP_UTF8, 0, inptr, inlen, outptr, outlen);
@@ -44,10 +44,10 @@ std::string wstring_to_string(const std::wstring& s) {
   const wchar_t* inptr = s.data();
   size_t inlen = s.size();
   size_t outlen =
-    WideCharToMultiByte(CP_UTF8, 0, inptr, inlen, NULL, 0, NULL, NULL);
+    WideCharToMultiByte(CP_UTF8, 0, inptr, inlen, nullptr, 0, nullptr, nullptr);
   std::string outstr(outlen, 0);
   const LPSTR outptr = outstr.data();
-  WideCharToMultiByte(CP_UTF8, 0, inptr, inlen, outptr, outlen, NULL, NULL);
+  WideCharToMultiByte(CP_UTF8, 0, inptr, inlen, outptr, outlen, nullptr, nullptr);
   return outstr;
 }
 #else

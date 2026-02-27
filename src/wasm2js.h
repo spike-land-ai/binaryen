@@ -2557,7 +2557,7 @@ void Wasm2JSBuilder::addMemoryGrowFunc(Ref ast, Module* wasm) {
                                ValueBuilder::makeInt(static_cast<uint32_t>(
                                  wasm->memories[0]->max.addr))));
   }
-  memoryGrowFunc[3]->push_back(ValueBuilder::makeIf(condition, block, NULL));
+  memoryGrowFunc[3]->push_back(ValueBuilder::makeIf(condition, block, nullptr));
 
   Ref newBuffer = ValueBuilder::makeVar();
   ValueBuilder::appendToBlock(block, newBuffer);

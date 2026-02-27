@@ -5427,7 +5427,7 @@ const char* BinaryenElementSegmentGetData(BinaryenElementSegmentRef elem,
     Fatal() << "invalid segment data id.";
   }
   if (data[dataId]->is<RefNull>()) {
-    return NULL;
+    return nullptr;
   } else if (auto* get = data[dataId]->dynCast<RefFunc>()) {
     return get->func.str.data();
   } else {
@@ -5488,7 +5488,7 @@ uint32_t BinaryenGetMemorySegmentByteOffset(BinaryenModuleRef module,
                                             const char* segmentName) {
   auto* wasm = (Module*)module;
   const auto* segment = wasm->getDataSegmentOrNull(Name(segmentName));
-  if (segment == NULL) {
+  if (segment == nullptr) {
     Fatal() << "invalid segment name.";
   }
 
@@ -5610,7 +5610,7 @@ size_t BinaryenGetMemorySegmentByteLength(BinaryenModuleRef module,
                                           const char* segmentName) {
   auto* wasm = (Module*)module;
   const auto* segment = wasm->getDataSegmentOrNull(Name(segmentName));
-  if (segment == NULL) {
+  if (segment == nullptr) {
     Fatal() << "invalid segment name.";
   }
   return segment->data.size();
@@ -5619,7 +5619,7 @@ bool BinaryenGetMemorySegmentPassive(BinaryenModuleRef module,
                                      const char* segmentName) {
   auto* wasm = (Module*)module;
   const auto* segment = wasm->getDataSegmentOrNull(Name(segmentName));
-  if (segment == NULL) {
+  if (segment == nullptr) {
     Fatal() << "invalid segment name.";
   }
   return segment->isPassive;
@@ -5629,7 +5629,7 @@ void BinaryenCopyMemorySegmentData(BinaryenModuleRef module,
                                    char* buffer) {
   auto* wasm = (Module*)module;
   const auto* segment = wasm->getDataSegmentOrNull(Name(segmentName));
-  if (segment == NULL) {
+  if (segment == nullptr) {
     Fatal() << "invalid segment name.";
   }
   std::copy(segment->data.cbegin(), segment->data.cend(), buffer);

@@ -17,9 +17,10 @@
 // Pure parsing. Calls methods on a Builder (template argument) to actually
 // construct the AST
 //
-// XXX All parsing methods assume they take ownership of the input string. This
-//     lets them reuse parts of it. You will segfault if the input string cannot
-//     be reused and written to.
+// KNOWN ISSUE: All parsing methods assume they take ownership of the input string.
+// WHY: This lets them reuse parts of it.
+// RISK: You will segfault if the input string cannot be reused and written to.
+// FIX: Implement proper string copying or pass string_views where possible.
 
 #ifndef wasm_parser_h
 #define wasm_parser_h

@@ -1798,8 +1798,10 @@ Literal Literal::madd(const Literal& left, const Literal& right) const {
   }
 }
 
-// XXX: This is not an actual fused negated multiply implementation, but
-// the relaxed spec allows a double rounding implementation like below.
+// KNOWN ISSUE: This is not an actual fused negated multiply implementation.
+// WHY: The relaxed spec allows a double rounding implementation like below.
+// RISK: Might produce slightly different results than true fused negated multiply.
+// FIX: Implement true fused operations if strict IEEE compliance is required.
 Literal Literal::nmadd(const Literal& left, const Literal& right) const {
   switch (type.getBasic()) {
     case Type::f32:

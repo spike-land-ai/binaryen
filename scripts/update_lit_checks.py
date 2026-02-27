@@ -47,11 +47,6 @@ ALL_ITEMS = DECL_ITEMS + '|' + IMPORT_ITEM + '|' + EXPORT_ITEM
 # segments included in the output.
 ITEM_NAME = r'\$[^\s()]*|\$"[^"]*"|declare'
 
-# FIXME: This does not handle nested string contents. For example,
-#  (data (i32.const 10) "hello(")
-# will look unterminated, due to the '(' inside the string. As a result, the
-# code below will consider more elements after the |data| to be part of it,
-# until it sees enough closing ')' symbols.
 ITEM_RE = re.compile(r'(?:^\s*\(rec\s*)?(^\s*)\((' + ALL_ITEMS + r')\s+(' + ITEM_NAME + ').*$',
                      re.MULTILINE)
 
@@ -114,18 +109,27 @@ def run_command(args, test, tmp, command):
     return subprocess.check_output(command, shell=True, env=env).decode('utf-8')
 
 
+STRING_RE = re.compile(r'"(?:[^"\\]|\\.)*"')
+
 def find_end(module, start):
     # Find the index one past the closing parenthesis corresponding to the first
     # open parenthesis at `start`.
     assert module[start] == '('
     depth = 1
-    for end in range(start + 1, len(module)):
+    end = start + 1
+    while end < len(module):
         if depth == 0:
             break
+        elif module[end] == '"':
+            match = STRING_RE.match(module, end)
+            if match:
+                end = match.end()
+                continue
         elif module[end] == '(':
             depth += 1
         elif module[end] == ')':
             depth -= 1
+        end += 1
     return end
 
 

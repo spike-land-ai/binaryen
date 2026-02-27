@@ -49,7 +49,7 @@ static std::string runCommand(std::string command) {
   const int MAX_BUFFER = 1024;
   char buffer[MAX_BUFFER];
   FILE* stream = popen(command.c_str(), "r");
-  while (fgets(buffer, MAX_BUFFER, stream) != NULL) {
+  while (fgets(buffer, MAX_BUFFER, stream) != nullptr) {
     output.append(buffer);
   }
   pclose(stream);

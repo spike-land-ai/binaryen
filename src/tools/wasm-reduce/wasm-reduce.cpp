@@ -57,12 +57,12 @@ std::string GetLastErrorStdStr() {
     DWORD bufLen = FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
                                    FORMAT_MESSAGE_FROM_SYSTEM |
                                    FORMAT_MESSAGE_IGNORE_INSERTS,
-                                 NULL,
+                                 nullptr,
                                  error,
                                  MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
                                  (LPTSTR)&lpMsgBuf,
                                  0,
-                                 NULL);
+                                 nullptr);
     if (bufLen) {
       LPCSTR lpMsgStr = (LPCSTR)lpMsgBuf;
       std::string result(lpMsgStr, lpMsgStr + bufLen);
@@ -100,7 +100,7 @@ struct ProgramResult {
     SECURITY_ATTRIBUTES saAttr;
     saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
     saAttr.bInheritHandle = TRUE;
-    saAttr.lpSecurityDescriptor = NULL;
+    saAttr.lpSecurityDescriptor = nullptr;
 
     HANDLE hChildStd_OUT_Rd;
     HANDLE hChildStd_OUT_Wr;
@@ -125,14 +125,14 @@ struct ProgramResult {
     ZeroMemory(&pi, sizeof(pi));
 
     // Start the child process.
-    if (!CreateProcess(NULL, // No module name (use command line)
+    if (!CreateProcess(nullptr, // No module name (use command line)
                        (LPSTR)command.c_str(), // Command line
-                       NULL,                   // Process handle not inheritable
-                       NULL,                   // Thread handle not inheritable
+                       nullptr,                   // Process handle not inheritable
+                       nullptr,                   // Thread handle not inheritable
                        TRUE,                   // Set handle inheritance to TRUE
                        0,                      // No creation flags
-                       NULL,                   // Use parent's environment block
-                       NULL, // Use parent's starting directory
+                       nullptr,                   // Use parent's environment block
+                       nullptr, // Use parent's starting directory
                        &si,  // Pointer to STARTUPINFO structure
                        &pi)  // Pointer to PROCESS_INFORMATION structure
     ) {
@@ -164,10 +164,10 @@ struct ProgramResult {
       CHAR chBuf[BUFSIZE];
       BOOL bSuccess = FALSE;
 
-      PeekNamedPipe(hChildStd_OUT_Rd, NULL, 0, NULL, &dwTotal, NULL);
+      PeekNamedPipe(hChildStd_OUT_Rd, nullptr, 0, nullptr, &dwTotal, nullptr);
       while (dwTotalRead < dwTotal) {
         bSuccess =
-          ReadFile(hChildStd_OUT_Rd, chBuf, BUFSIZE - 1, &dwRead, NULL);
+          ReadFile(hChildStd_OUT_Rd, chBuf, BUFSIZE - 1, &dwRead, nullptr);
         if (!bSuccess || dwRead == 0)
           break;
         chBuf[dwRead] = 0;
@@ -188,7 +188,7 @@ struct ProgramResult {
       ("timeout " + std::to_string(timeout) + "s " + command + " 2> /dev/null")
         .c_str(),
       "r");
-    while (fgets(buffer, MAX_BUFFER, stream) != NULL) {
+    while (fgets(buffer, MAX_BUFFER, stream) != nullptr) {
       output.append(buffer);
     }
     code = pclose(stream);

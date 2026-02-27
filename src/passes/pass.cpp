@@ -536,6 +536,7 @@ void PassRegistry::registerPasses() {
                "same as string-lowering-magic-imports, but raise a fatal error "
                "if there are invalid strings",
                createStringLoweringMagicImportAssertPass);
+  // DEPRECATED ALIAS:
   registerPass(
     "strip", "deprecated; same as strip-debug", createStripDebugPass);
   registerPass("stack-check",
@@ -555,6 +556,7 @@ void PassRegistry::registerPasses() {
   registerPass("strip-toolchain-annotations",
                "strip all toolchain-specific code annotations",
                createStripToolchainAnnotationsPass);
+  // DEPRECATED ALIAS:
   registerPass("translate-to-new-eh",
                "deprecated; same as translate-to-exnref",
                createTranslateToExnrefPass);
@@ -589,6 +591,7 @@ void PassRegistry::registerPasses() {
                "removes local.tees, replacing them with sets and gets",
                createUnteePass);
   registerPass("vacuum", "removes obviously unneeded code", createVacuumPass);
+  // NOTE: lower-i64 is disabled because it is deprecated.
   // registerPass(
   //   "lower-i64", "lowers i64 into pairs of i32s", createLowerInt64Pass);
 

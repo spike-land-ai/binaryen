@@ -48,7 +48,7 @@ template<typename Genome, typename Fitness, typename Generator>
 class GeneticLearner {
   Generator& generator;
 
-  typedef std::unique_ptr<Genome> unique_ptr;
+  using unique_ptr = std::unique_ptr<Genome>;
   std::vector<unique_ptr> population;
 
   void sort() {

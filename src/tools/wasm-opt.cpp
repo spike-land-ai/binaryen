@@ -470,7 +470,7 @@ For more on how to optimize effectively, see
         options.passes.begin(),
         options.passes.end(),
         [](const OptimizationOptions::PassInfo& info) {
-          return info.name == "print" || info.name == "print-function-map";
+          return info.name == "print";
         });
       if (!printsToStdout) {
         std::cerr << "warning: no output file specified, not emitting output\n";

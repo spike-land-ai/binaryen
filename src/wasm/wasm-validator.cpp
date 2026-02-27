@@ -1514,8 +1514,7 @@ void FunctionValidator::visitSIMDTernary(SIMDTernary* curr) {
     case RelaxedNmaddVecF32x4:
     case RelaxedMaddVecF64x2:
     case RelaxedNmaddVecF64x2:
-    case RelaxedDotI8x16I7x16AddVecI32x4:
-    case RelaxedDotBf16x8AddVecF32x4:
+    case DotI8x16I7x16AddSToVecI32x4:
       shouldBeTrue(getModule()->features.hasRelaxedSIMD(),
                    curr,
                    "Relaxed SIMD operations require Relaxed SIMD [--enable-relaxed-simd]");

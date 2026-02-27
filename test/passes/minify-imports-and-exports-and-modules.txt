@@ -13,3 +13,13 @@ longname4 => f
  (import "a" "e" (func $internal3))
  (import "a" "f" (func $internal4))
 )
+a => a
+export1 => b
+export2 => c
+(module
+ (type $0 (func))
+ (import "a" "a" (func $foo))
+ (import "a" "a" (func $bar))
+ (export "b" (func $foo))
+ (export "c" (func $bar))
+)

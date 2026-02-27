@@ -107,16 +107,9 @@ private:
 
   void doMinifyModules(Module* module) {
     // Minify the module name itself, and also merge all the modules into
-    // one. Assert against overlapping names.
-#ifndef NDEBUG
-    std::set<Name> seenImports;
-#endif
+    // one. Overlapping names are perfectly valid in WebAssembly.
     ModuleUtils::iterImports(*module, [&](Importable* curr) {
       curr->module = SINGLETON_MODULE_NAME;
-#ifndef NDEBUG
-      auto res = seenImports.emplace(curr->base);
-      assert(res.second);
-#endif
     });
   }
 };

@@ -6,3 +6,10 @@
   (import "env" "longname3" (func $internal3))
   (import "other" "longname4" (func $internal4))
 )
+
+(module
+  (import "x" "a" (func $foo))
+  (import "y" "a" (func $bar))
+  (export "export1" (func $foo))
+  (export "export2" (func $bar))
+)

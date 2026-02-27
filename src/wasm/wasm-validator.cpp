@@ -1503,6 +1503,26 @@ void FunctionValidator::visitSIMDTernary(SIMDTernary* curr) {
   shouldBeTrue(getModule()->features.hasSIMD(),
                curr,
                "SIMD operations require SIMD [--enable-simd]");
+  switch (curr->op) {
+    case RelaxedMaddVecF16x8:
+    case RelaxedNmaddVecF16x8:
+      shouldBeTrue(getModule()->features.hasFP16(),
+                   curr,
+                   "FP16 operations require FP16 [--enable-fp16]");
+      [[fallthrough]];
+    case RelaxedMaddVecF32x4:
+    case RelaxedNmaddVecF32x4:
+    case RelaxedMaddVecF64x2:
+    case RelaxedNmaddVecF64x2:
+    case RelaxedDotI8x16I7x16AddVecI32x4:
+    case RelaxedDotBf16x8AddVecF32x4:
+      shouldBeTrue(getModule()->features.hasRelaxedSIMD(),
+                   curr,
+                   "Relaxed SIMD operations require Relaxed SIMD [--enable-relaxed-simd]");
+      break;
+    default:
+      break;
+  }
   shouldBeEqualOrFirstIsUnreachable(
     curr->type, Type(Type::v128), curr, "SIMD ternary must have type v128");
   shouldBeEqualOrFirstIsUnreachable(

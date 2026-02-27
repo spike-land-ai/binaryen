@@ -1057,14 +1057,20 @@ void RefTest::finalize() {
     type = Type::unreachable;
   } else {
     type = Type::i32;
-    // Do not unnecessarily lose type information.
-    castType = Type::getGreatestLowerBound(castType, ref->type);
+    if (ref->type.isRef()) {
+      // Do not unnecessarily lose type information.
+      castType = Type::getGreatestLowerBound(castType, ref->type);
+    }
   }
 }
 
 void RefCast::finalize() {
   if (ref->type == Type::unreachable ||
       (desc && desc->type == Type::unreachable)) {
+    type = Type::unreachable;
+    return;
+  }
+  if (!ref->type.isRef()) {
     type = Type::unreachable;
     return;
   }
@@ -1121,6 +1127,10 @@ void RefGetDesc::finalize() {
 void BrOn::finalize() {
   if (ref->type == Type::unreachable ||
       (desc && desc->type == Type::unreachable)) {
+    type = Type::unreachable;
+    return;
+  }
+  if (!ref->type.isRef()) {
     type = Type::unreachable;
     return;
   }

@@ -3418,8 +3418,14 @@ private:
 
         validateImportKindMatches(kind, *importable);
 
-        SubType* importedInstance =
-          linkedInstances.at(importable->module).get();
+        auto it = linkedInstances.find(importable->module);
+        if (it == linkedInstances.end()) {
+          trap((std::stringstream()
+                << "Import module " << std::quoted(importable->module.toString())
+                << " doesn't exist.")
+                 .str());
+        }
+        SubType* importedInstance = it->second.get();
         Export* export_ =
           importedInstance->wasm.getExportOrNull(importable->base);
 
@@ -3590,7 +3596,14 @@ private:
     Export* memoryExport = nullptr;
     for (auto* memory = instance->wasm.getMemory(name); memory->imported();
          memory = instance->wasm.getMemory(*memoryExport->getInternalName())) {
-      instance = instance->linkedInstances.at(memory->module).get();
+      auto it = instance->linkedInstances.find(memory->module);
+      if (it == instance->linkedInstances.end()) {
+        instance->trap((std::stringstream()
+                        << "Import module " << std::quoted(memory->module.toString())
+                        << " doesn't exist.")
+                         .str());
+      }
+      instance = it->second.get();
       memoryExport = instance->wasm.getExport(memory->base);
     }
 
